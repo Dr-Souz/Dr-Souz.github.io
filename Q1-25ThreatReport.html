@@ -540,16 +540,20 @@
                         closeAiModal();
                     }
                 });
-            }
+          
+            <script>
+  async function sendToGemini() {
+    const userText = document.getElementById('inputText').value;
+    const response = await fetch('https://<your-vercel-project>.vercel.app/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: userText })
+    });
 
-            async function callGeminiAPI(prompt) {
-                const apiKey = "GEMINI_API_KEY"; // API key will be injected by the environment
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                
-                const payload = {
-                    contents: [{ role: "user", parts: [{ text: prompt }] }]
-                };
-
+    const data = await response.json();
+    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+  }
+</script>   
                 try {
                     const response = await fetch(apiUrl, {
                         method: 'POST',
